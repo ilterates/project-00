@@ -71,6 +71,7 @@ this.start = function() {
         player +=1;
 
         if (player === 3){
+          getWinner();
           player = 1;
         }
       }
@@ -88,7 +89,7 @@ this.start = function() {
       timer.start();
     }
   });
-  $(".off,.trap").mouseover(function(){
+  $(".off").mouseover(function(){
     if (gameOn) {
       $(".container").effect( "shake",{times:2}, 270  ).fadeTo( "fast" , 0.25, function(off){}).fadeTo( "fast" , 1, function(){});
 
@@ -98,4 +99,21 @@ this.start = function() {
     }
 
   });
+  $(".trap,.player").mouseover(function(){
+    if (player === 1 && gameOn) {
+      $("#player1").text("cheat0r");
+    } else if (player === 2 && gameOn){
+      $("#player2").text("cheat0r");
+    }
+    timer.stop();
+    gameOn = false;
+    console.log("you cheator!");
+  });
+  function getWinner(){
+    if ($("#player1").val(timer.formattedTime) > $("#player2").val(timer.formattedTime)){
+      console.log("Winner player 1");
+    } else {
+      console.log("Winner player 2");
+    }
+  }
 }
