@@ -17,9 +17,9 @@ function update(){
   var formattedTime = timeFormatter(time);
   console.log(formattedTime);
   if (player === 1){
-    $("#player1").text(formattedTime);
+    $("#player1").text("Player One: " + formattedTime);
   } else {
-    $("#player2").text(formattedTime);
+    $("#player2").text("Player Two: " + formattedTime);
   }
 }
 function delta(){
@@ -30,9 +30,9 @@ function delta(){
 }
 function timeFormatter(timeInMilliseconds){
   var time = new Date(timeInMilliseconds);
-  var minutes = time.getMinutes().toString();
-  var seconds = time.getSeconds().toString();
-  var milliseconds = time.getMilliseconds().toString();
+  var minutes = time.getMinutes();
+  var seconds = time.getSeconds();
+  var milliseconds = time.getMilliseconds();
   return minutes + ":" + seconds + "." + milliseconds;
 
 }
@@ -74,7 +74,7 @@ this.start = function() {
           player = 1;
         }
       }
-    
+
   });
 
   $("#start").mouseover(function(){
@@ -88,7 +88,7 @@ this.start = function() {
       timer.start();
     }
   });
-  $(".off").mouseover(function(){
+  $(".off,.trap").mouseover(function(){
     if (gameOn) {
       $(".container").effect( "shake",{times:2}, 270  ).fadeTo( "fast" , 0.25, function(off){}).fadeTo( "fast" , 1, function(){});
 

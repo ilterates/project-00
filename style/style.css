@@ -9,5 +9,11 @@
 }
 .player {
   height:60px;
-  border-style: dotted;
+  font-family: Peddana;
+  font-size: 50px;
+}
+.trap {
+  min-height: 100%;
+  border-style: solid;
+  border-color: white;
 }
