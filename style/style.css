@@ -7,3 +7,7 @@
   border-radius: 0px;
   height:60px;
 }
+.player {
+  height:60px;
+  border-style: dotted;
+}

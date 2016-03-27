@@ -1,7 +1,10 @@
 // object
 var timer = new stopwatch();
-var gameOn = true;
-// stopwatch
+var gameOn = false;
+var player = 1;
+
+//stopwatch
+// I made this stopwatch with the help https://www.youtube.com/watch?v=jRhB1IG7uAw
 
 function stopwatch() {
 
@@ -11,8 +14,13 @@ var offset;
 
 function update(){
   time += delta();
-//  var formattedTime = timeFormatter(time);
-  console.log(time);
+  var formattedTime = timeFormatter(time);
+  console.log(formattedTime);
+  if (player === 1){
+    $("#player1").text(formattedTime);
+  } else {
+    $("#player2").text(formattedTime);
+  }
 }
 function delta(){
   var now = Date.now();
@@ -22,9 +30,11 @@ function delta(){
 }
 function timeFormatter(timeInMilliseconds){
   var time = new Date(timeInMilliseconds);
-  var minutes = time.getMinutes();
-  var seconds = time.getSeconds();
-  var milliseconds = time.getMilliseconds();
+  var minutes = time.getMinutes().toString();
+  var seconds = time.getSeconds().toString();
+  var milliseconds = time.getMilliseconds().toString();
+  return minutes + ":" + seconds + "." + milliseconds;
+
 }
 
 this.isOn = false;
@@ -55,15 +65,22 @@ this.start = function() {
   // on.mouseover
   $("#finish").mouseover( function (name) {
     console.log("Finished", time);
-    if (timer.isOn) {
-      timer.stop();
-    }
+      if (timer.isOn) {
+        timer.stop();
+        gameOn = false;
+        player +=1;
+
+        if (player === 3){
+          player = 1;
+        }
+      }
+    
   });
 
   $("#start").mouseover(function(){
     gameOn = true;
     $(".container").fadeTo( "fast" , 1, function() {
-
+    $("#player1").val(timer.formattedTime);
     });
     console.log("started");
     if (!timer.isOn) {
@@ -73,12 +90,8 @@ this.start = function() {
   });
   $(".off").mouseover(function(){
     if (gameOn) {
-      $(".container").fadeTo( "fast" , 0.25, function(off) {
+      $(".container").effect( "shake",{times:2}, 270  ).fadeTo( "fast" , 0.25, function(off){}).fadeTo( "fast" , 1, function(){});
 
-      });
-    }
-    if (gameOn) {
-      $(".container").effect( "shake",{times:2}, 270  );
       console.log("failed", time);
       timer.stop();
       gameOn = false;
