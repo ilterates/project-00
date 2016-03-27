@@ -2,6 +2,8 @@
 var timer = new stopwatch();
 var gameOn = false;
 var player = 1;
+var player1time;
+var player2time;
 
 //stopwatch
 // I made this stopwatch with the help https://www.youtube.com/watch?v=jRhB1IG7uAw
@@ -11,15 +13,18 @@ function stopwatch() {
 var time = 0;
 var interval;
 var offset;
+var formattedTime;
 
 function update(){
   time += delta();
-  var formattedTime = timeFormatter(time);
+  formattedTime = timeFormatter(time);
   console.log(formattedTime);
   if (player === 1){
     $("#player1").text("Player One: " + formattedTime);
+    player1time = formattedTime;
   } else {
     $("#player2").text("Player Two: " + formattedTime);
+    player2time = formattedTime;
   }
 }
 function delta(){
@@ -71,8 +76,9 @@ this.start = function() {
         player +=1;
 
         if (player === 3){
-          getWinner();
           player = 1;
+          getWinner();
+
         }
       }
 
@@ -110,10 +116,12 @@ this.start = function() {
     console.log("you cheator!");
   });
   function getWinner(){
-    if ($("#player1").val(timer.formattedTime) > $("#player2").val(timer.formattedTime)){
+    if ((player1time) < (player2time)){
       console.log("Winner player 1");
+      $("#player1").text("Player One: " + player1time + "  Winner!");
     } else {
       console.log("Winner player 2");
+      $("#player2").text("Player Two: " + player2time + "  Winner!");
     }
   }
 }
