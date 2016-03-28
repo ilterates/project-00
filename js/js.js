@@ -145,6 +145,8 @@ this.start = function() {
         turn = 1;
         player1wins = 0;
         player2wins = 0;
+        $("#player1score").text("Score: " + player1wins); 
+        $("#player2score").text("Score: " + player2wins);
         timer.stop();
         timer.reset();
         console.log("restarted");
