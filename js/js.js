@@ -1,9 +1,11 @@
 // object
 var timer = new stopwatch();
 var gameOn = false;
-var player = 1;
-var player1time;
-var player2time;
+var turn = 1;
+var player1time,player2time;
+var player1wins = 0;
+var player2wins = 0;
+
 
 //stopwatch
 // I made this stopwatch with the help https://www.youtube.com/watch?v=jRhB1IG7uAw
@@ -19,20 +21,23 @@ function update(){
   time += delta();
   formattedTime = timeFormatter(time);
   console.log(formattedTime);
-  if (player === 1){
-    $("#player1").text("Player One: " + formattedTime);
+  if (turn === 1){
+    $("#player1").text("Player One: " + formattedTime );
     player1time = formattedTime;
   } else {
-    $("#player2").text("Player Two: " + formattedTime);
+    $("#player2").text("Player Two: " + formattedTime );
     player2time = formattedTime;
   }
 }
+
+// takes start time - time now = time passed
 function delta(){
   var now = Date.now();
   var timePassed = now - offset;
   offset = now;
   return timePassed;
 }
+// this function changes time from just milliseconds to minutes:seconds.milliseconds
 function timeFormatter(timeInMilliseconds){
   var time = new Date(timeInMilliseconds);
   var minutes = time.getMinutes();
@@ -46,7 +51,6 @@ this.isOn = false;
 
 
 this.start = function() {
-// aka if (this.isOn === false)
   if (!this.isOn) {
     interval = setInterval(update, 10);
     offset = Date.now();
@@ -73,10 +77,10 @@ this.start = function() {
       if (timer.isOn) {
         timer.stop();
         gameOn = false;
-        player +=1;
+        turn +=1;
 
-        if (player === 3){
-          player = 1;
+        if (turn === 3){
+          turn = 1;
           getWinner();
 
         }
@@ -85,6 +89,10 @@ this.start = function() {
   });
 
   $("#start").mouseover(function(){
+    if ( turn === 1 ) {
+      $("#player1").text("Player One: 0:0.000");
+      $("#player2").text("Player Two: 0:0.000");
+    }
     gameOn = true;
     $(".container").fadeTo( "fast" , 1, function() {
     $("#player1").val(timer.formattedTime);
@@ -106,9 +114,9 @@ this.start = function() {
 
   });
   $(".trap,.player").mouseover(function(){
-    if (player === 1 && gameOn) {
+    if (turn === 1 && gameOn) {
       $("#player1").text("cheat0r");
-    } else if (player === 2 && gameOn){
+    } else if (turn === 2 && gameOn){
       $("#player2").text("cheat0r");
     }
     timer.stop();
@@ -118,10 +126,46 @@ this.start = function() {
   function getWinner(){
     if ((player1time) < (player2time)){
       console.log("Winner player 1");
+      player1wins +=1;
       $("#player1").text("Player One: " + player1time + "  Winner!");
+      $("#player1score").text("Score: " + player1wins);
     } else {
       console.log("Winner player 2");
+      player2wins +=1;
       $("#player2").text("Player Two: " + player2time + "  Winner!");
+      $("#player2score").text("Score: " + player2wins);
     }
   }
-}
+
+  // function to restart the game ctrl + should work on all browsers(?)
+    $(document).keydown(function (event){
+      if(event.ctrlKey && event.which == 32){
+        $("#player1").text("Player One: 0:0.000");
+        $("#player2").text("Player Two: 0:0.000");
+        turn = 1;
+        player1wins = 0;
+        player2wins = 0;
+        timer.stop();
+        timer.reset();
+        console.log("restarted");
+      }
+      });
+  }
+
+// arrow keys will now move the game box. Because why not?
+  $(document).keydown(function (event){
+    if (event.which == 39) {
+        $(".on,.off").animate({"left":"+=5px"}, 50);
+        console.log("move Right");
+    } else if (event.which == 37) {
+        $(".on,.off").animate({"left":"-=5px"}, 50);
+        console.log("Move Left");
+    } else if (event.which == 38) {
+        $(".on,.off").animate({"top":"-=5px"}, 50);
+        console.log("Move Left");
+    } else if (event.which == 40) {
+        $(".on,.off").animate({"top":"+=5px"}, 50);
+        console.log("Move Left");
+    }
+
+  });

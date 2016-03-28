@@ -1,9 +1,12 @@
+#player2{
+  text-align: right;
+}
 .on {
-
+  background-color: white;
   height:60px;
 }
 .off {
-  background-color: black;
+  background-color: rgb(102, 102, 153);
   border-radius: 0px;
   height:60px;
 }
